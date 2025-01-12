@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BACR Terminal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/terminal.css') }}">
+</head>
+<body>
+    <div class="terminal-container">
+        <div id="terminal">
+            <div class="terminal-header">
+                <span class="header-text">BACR SECURE TERMINAL v2.174 {{current_time}}</span>
+            </div>
+            <div id="output" class="terminal-output">
+                <pre class="ascii-art">
+██████   █████   ██████ ██████  
+██   ██ ██   ██ ██      ██   ██ 
+██████  ███████ ██      ██████  
+██   ██ ██   ██ ██      ██   ██ 
+██████  ██   ██  ██████ ██   ██ 
+                </pre>
+                <p>BUREAU OF ANOMALOUS CONTAINMENT AND RESEARCH</p>
+                <p>SECURITY LEVEL: ALPHA-3</p>
+                <p>TYPE 'help' FOR AVAILABLE COMMANDS</p>
+            </div>
+            <div class="terminal-input-line">
+                <span class="prompt">>></span>
+                <input type="text" id="terminal-input" class="terminal-input" autofocus spellcheck="false">
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/terminal.js') }}"></script>
+</body>
+</html>

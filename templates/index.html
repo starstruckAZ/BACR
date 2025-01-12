@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BACR Database</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <h1>BACR SECURE DATABASE</h1>
+            <div class="glitch-text">WARNING: AUTHORIZED ACCESS ONLY</div>
+            <form id="login-form">
+                <div class="input-group">
+                    <input type="text" placeholder="Agency ID">
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Access Code">
+                </div>
+                <button type="submit">LOGIN</button>
+            </form>
+            <div class="access-denied"></div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
