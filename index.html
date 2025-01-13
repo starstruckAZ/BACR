@@ -4,44 +4,94 @@
     <title>SECURE TERMINAL v1.0</title>
     <style>
         body {
-            background-color: white;
+            background-color: #000;
+            color: #33ff33;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
             margin: 0;
-            padding: 10px;
-            font-family: monospace;
+            line-height: 1.5;
         }
+
         input {
-            font-family: monospace;
-            margin: 2px;
+            background-color: #000;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+            font-family: 'Courier New', monospace;
             width: 200px;
-            border: 1px solid black;
+            margin-bottom: 5px;
+            padding: 5px;
+            outline: none;
         }
+
+        input:focus {
+            box-shadow: 0 0 5px #33ff33;
+        }
+
         button {
-            font-family: monospace;
-            margin-top: 5px;
+            background-color: #000;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+            font-family: 'Courier New', monospace;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #33ff33;
+            color: #000;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: #33ff33;
+            animation: blink 1s infinite;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        #output {
+            margin-bottom: 20px;
+        }
+
+        input::placeholder {
+            color: #33ff33;
+            opacity: 0.5;
         }
     </style>
 </head>
 <body>
-    BACR SECURE DATABASE
-    <br><br>
-    WARNING: AUTHORIZED ACCESS ONLY
-    <br><br>
-    <input type="text" placeholder="Agency ID">
-    <br>
-    <input type="password" placeholder="Access Code">
-    <br>
-    <button onclick="submitForm()">LOGIN</button>
+    <div id="output">
+        BACR SECURE DATABASE<br><br>
+        WARNING: AUTHORIZED ACCESS ONLY<span class="cursor"></span>
+    </div>
+    <form id="loginForm">
+        <input type="text" id="username" value="agent-327" autocomplete="off">
+        <br>
+        <input type="password" id="password" autocomplete="off">
+        <br>
+        <button type="submit">LOGIN</button>
+    </form>
+
     <script>
-        function submitForm() {
-            // Basic login check
-            const username = document.querySelector('input[type="text"]').value;
-            const password = document.querySelector('input[type="password"]').value;
-            if(username === "agent-327" && password === "password") {
-                document.body.innerHTML += "<br>ACCESS GRANTED";
+        document.getElementById('loginForm').onsubmit = function(e) {
+            e.preventDefault();
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            
+            if (username === 'agent-327' && password === 'password') {
+                document.getElementById('output').innerHTML += '<br>ACCESS GRANTED<span class="cursor"></span>';
             } else {
-                document.body.innerHTML += "<br>ACCESS DENIED";
+                document.getElementById('output').innerHTML += '<br>ACCESS DENIED<span class="cursor"></span>';
             }
-        }
+            return false;
+        };
     </script>
 </body>
 </html>
