@@ -90,15 +90,27 @@
             color: #ff3333;
             margin-top: 10px;
         }
+
+        .access-denied {
+            color: #ff3333;
+            margin-top: 10px;
+            animation: glitch 0.3s linear infinite;
+        }
+
+        @keyframes glitch {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
     <div class="logo">
-██████  ███████  ██████ ██████  
-██   ██ ██      ██      ██   ██ 
-██████  █████   ██      ██████  
-██   ██ ██      ██      ██   ██ 
-██████  ███████  ██████ ██   ██ </div>
+    ██████   █████   ██████  ██████  
+    ██   ██ ██   ██ ██      ██   ██ 
+    ██████  ███████ ██      ██████  
+    ██   ██ ██   ██ ██      ██   ██ 
+    ██████  ██   ██  ██████ ██   ██ </div>
 
     <div class="header">
         BUREAU OF ANOMALOUS CONTAINMENT AND RESEARCH
@@ -118,7 +130,7 @@
 
     <div id="output">
         BACR SECURE DATABASE<br>
-        WARNING: AUTHORIZED ACCESS ONLY
+        WARNING: AUTHORIZED ACCESS ONLY<span class="cursor"></span>
     </div>
 
     <form id="loginForm">
@@ -137,10 +149,30 @@
             var username = document.getElementById('username').value;
             var password = document.getElementById('password').value;
             
-            if (username === 'agent-327' && password === 'password') {
-                document.getElementById('output').innerHTML += '<br>ACCESS GRANTED<span class="cursor"></span>';
+            const output = document.getElementById('output');
+            output.innerHTML = output.innerHTML.replace('<span class="cursor"></span>', '');
+            
+            if (username === 'agent-327' && password === 'parallax-413') {
+                output.innerHTML += '<br>ACCESS GRANTED<span class="cursor"></span>';
+                // Add delay before redirect
+                setTimeout(() => {
+                    window.location.href = 'templates/classified.html';
+                }, 1500);
             } else {
-                document.getElementById('output').innerHTML += '<br>ACCESS DENIED<span class="cursor"></span>';
+                output.innerHTML += '<br>ACCESS DENIED<span class="cursor"></span>';
+                // Add glitch effect for failed attempts
+                const deniedMessage = document.createElement('div');
+                deniedMessage.className = 'access-denied';
+                deniedMessage.textContent = 'ACCESS DENIED';
+                document.body.appendChild(deniedMessage);
+                
+                // Remove denial message after animation
+                setTimeout(() => {
+                    deniedMessage.remove();
+                }, 2000);
+                
+                // Clear password field
+                document.getElementById('password').value = '';
             }
             return false;
         };

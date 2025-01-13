@@ -1,3 +1,4 @@
+// Glitch effect function for text elements
 function createGlitchEffect(text) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()';
     const element = document.querySelector('.glitch-text');
@@ -22,13 +23,14 @@ function createGlitchEffect(text) {
     }, 100);
 }
 
+// Main initialization
 document.addEventListener('DOMContentLoaded', () => {
     createGlitchEffect('WARNING: AUTHORIZED ACCESS ONLY');
     
-    const loginForm = document.getElementById('login-form');
-    const accessDenied = document.querySelector('.access-denied');
+    const loginForm = document.getElementById('loginForm');
+    const output = document.getElementById('output');
 
-    // Add random glitch effects to the background
+    // Add background glitch effect
     setInterval(() => {
         if (Math.random() < 0.05) { // 5% chance of background glitch
             document.body.style.backgroundColor = '#001100';
@@ -38,89 +40,63 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 200);
 
+    // Handle form submission
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const username = loginForm.querySelector('input[type="text"]').value;
-        const password = loginForm.querySelector('input[type="password"]').value;
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
         
         // Add glitch effect to form
         loginForm.style.animation = 'formGlitch 0.3s';
         
-        try {
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password })
-            });
+        // Remove existing cursor
+        output.innerHTML = output.innerHTML.replace('<span class="cursor"></span>', '');
+        
+        if (username === 'agent-327' && password === 'parallax-413') {
+            // Success animation and redirect
+            output.innerHTML += '<br>ACCESS GRANTED<span class="cursor"></span>';
             
-            const data = await response.json();
-            
-            if (data.status === 'success') {
-                // Success animation
-                document.body.style.animation = 'accessGranted 2s forwards';
-                accessDenied.textContent = 'ACCESS GRANTED';
-                accessDenied.style.color = '#33ff33';
-                
-                // Add typing effect to access granted message
-                const text = 'INITIATING SECURE CONNECTION...';
-                let index = 0;
-                accessDenied.textContent = '';
-                const typing = setInterval(() => {
-                    if (index < text.length) {
-                        accessDenied.textContent += text.charAt(index);
-                        index++;
-                    } else {
-                        clearInterval(typing);
-                        setTimeout(() => {
-                            window.location.href = '/classified';
-                        }, 500);
-                    }
-                }, 50);
-
-            } else {
-                // Error animation
-                accessDenied.textContent = 'ACCESS DENIED';
-                accessDenied.style.color = '#ff3333';
-                accessDenied.style.animation = 'glitchText 0.5s';
-                
-                // Clear password field
-                loginForm.querySelector('input[type="password"]').value = '';
-                
-                // Add additional error effects
-                document.body.style.animation = 'errorFlash 0.5s';
-                for (let input of loginForm.querySelectorAll('input')) {
-                    input.style.animation = 'inputError 0.5s';
+            // Add typing effect
+            const text = 'INITIATING SECURE CONNECTION...';
+            let index = 0;
+            const typing = setInterval(() => {
+                if (index < text.length) {
+                    output.innerHTML = output.innerHTML.replace('<span class="cursor"></span>', '');
+                    output.innerHTML += text.charAt(index) + '<span class="cursor"></span>';
+                    index++;
+                } else {
+                    clearInterval(typing);
+                    setTimeout(() => {
+                        window.location.href = 'templates/classified.html';
+                    }, 500);
                 }
-
-                // Random character effect for error message
-                let errorInterval = setInterval(() => {
-                    accessDenied.textContent = 'ACCESS DENIED'.split('').map(char => 
-                        Math.random() < 0.1 ? String.fromCharCode(33 + Math.floor(Math.random() * 93)) : char
-                    ).join('');
-                }, 50);
-
-                setTimeout(() => {
-                    clearInterval(errorInterval);
-                    accessDenied.textContent = 'ACCESS DENIED';
-                }, 2000);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            accessDenied.textContent = 'SYSTEM ERROR';
-            accessDenied.style.color = '#ff3333';
-
-            // Add glitch effect for system error
-            let glitchInterval = setInterval(() => {
-                accessDenied.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+            }, 50);
+        } else {
+            // Error animation and effects
+            output.innerHTML += '<br>ACCESS DENIED<span class="cursor"></span>';
+            
+            // Clear password field
+            document.getElementById('password').value = '';
+            
+            // Add glitch effect for error
+            const deniedMessage = document.createElement('div');
+            deniedMessage.className = 'access-denied';
+            deniedMessage.textContent = 'ACCESS DENIED';
+            document.body.appendChild(deniedMessage);
+            
+            // Random character effect for error message
+            let errorInterval = setInterval(() => {
+                deniedMessage.textContent = 'ACCESS DENIED'.split('').map(char => 
+                    Math.random() < 0.1 ? chars[Math.floor(Math.random() * chars.length)] : char
+                ).join('');
             }, 50);
 
+            // Remove error message after animation
             setTimeout(() => {
-                clearInterval(glitchInterval);
-                accessDenied.style.transform = 'none';
-            }, 1000);
+                clearInterval(errorInterval);
+                deniedMessage.remove();
+            }, 2000);
         }
     });
 
