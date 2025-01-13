@@ -1,26 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BACR Database</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>SECURE TERMINAL v1.0</title>
+    <style>
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 10px;
+            font-family: monospace;
+        }
+        input {
+            font-family: monospace;
+            margin: 2px;
+            width: 200px;
+            border: 1px solid black;
+        }
+        button {
+            font-family: monospace;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="login-box">
-            <h1>BACR SECURE DATABASE</h1>
-            <div class="glitch-text">WARNING: AUTHORIZED ACCESS ONLY</div>
-            <form id="login-form">
-                <div class="input-group">
-                    <input type="text" placeholder="Agency ID">
-                </div>
-                <div class="input-group">
-                    <input type="password" placeholder="Access Code">
-                </div>
-                <button type="submit">LOGIN</button>
-            </form>
-            <div class="access-denied"></div>
-        </div>
-    </div>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    BACR SECURE DATABASE
+    <br><br>
+    WARNING: AUTHORIZED ACCESS ONLY
+    <br><br>
+    <input type="text" placeholder="Agency ID">
+    <br>
+    <input type="password" placeholder="Access Code">
+    <br>
+    <button onclick="submitForm()">LOGIN</button>
+    <script>
+        function submitForm() {
+            // Basic login check
+            const username = document.querySelector('input[type="text"]').value;
+            const password = document.querySelector('input[type="password"]').value;
+            if(username === "agent-327" && password === "password") {
+                document.body.innerHTML += "<br>ACCESS GRANTED";
+            } else {
+                document.body.innerHTML += "<br>ACCESS DENIED";
+            }
+        }
+    </script>
 </body>
 </html>
