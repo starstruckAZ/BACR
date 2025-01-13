@@ -1,167 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BACR SECURE TERMINAL V2.174 - CLASSIFIED</title>
-    <style>
-        body {
-            background-color: #000;
-            color: #33ff33;
-            font-family: monospace;
-            padding: 20px;
-            margin: 0;
-            line-height: 1.6;
-        }
-
-        .logo {
-            font-family: monospace;
-            font-size: 24px;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            white-space: pre;
-        }
-
-        .header {
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .security-level {
-            margin-bottom: 10px;
-        }
-
-        .command-reference {
-            border-top: 1px solid #33ff33;
-            border-bottom: 1px solid #33ff33;
-            padding: 10px 0;
-            margin: 20px 0;
-            font-size: 14px;
-        }
-
-        .terminal-window {
-            margin-top: 20px;
-            min-height: 400px;
-        }
-
-        .input-line {
-            display: flex;
-            margin-top: 10px;
-        }
-
-        .prompt {
-            color: #33ff33;
-            margin-right: 10px;
-        }
-
-        .input {
-            background: none;
-            border: none;
-            color: #33ff33;
-            font-family: monospace;
-            font-size: 14px;
-            flex-grow: 1;
-            outline: none;
-        }
-
-        @keyframes blink {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0; }
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 15px;
-            background-color: #33ff33;
-            animation: blink 1s infinite;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-    </style>
+    <title>BACR Terminal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/terminal.css') }}">
 </head>
 <body>
-    <div class="logo">
-██████   █████   ██████  ██████  
+    <div class="terminal-container">
+        <div id="terminal">
+            <div class="terminal-header">
+                <span class="header-text">BACR SECURE TERMINAL v2.174 {{current_time}}</span>
+            </div>
+            <div id="output" class="terminal-output">
+                <pre class="ascii-art">
+██████   █████   ██████ ██████  
 ██   ██ ██   ██ ██      ██   ██ 
 ██████  ███████ ██      ██████  
 ██   ██ ██   ██ ██      ██   ██ 
-██████  ██   ██  ██████ ██   ██ </div>
-
-    <div class="header">
-        BUREAU OF ANOMALOUS CONTAINMENT AND RESEARCH - CLASSIFIED TERMINAL
-    </div>
-
-    <div class="security-level">
-        SECURITY LEVEL: ALPHA-3
-    </div>
-
-    <div class="command-reference">
-        BACR TERMINAL COMMAND REFERENCE
-        ls List files in current directory | cd <directory> Change current directory | cat <filename> Display file contents
-        [RESTRICTED] ALPHA-3 Standard file access | BETA-2 Classified documents | [RESTRICTED] OMEGA-1 Shadow Realm data
-        WARNING: Some commands may trigger reality stabilization protocols
-        [NOTE: Unauthorized access attempts will be logged and reported]
-    </div>
-
-    <div class="terminal-window" id="terminal">
-        <div id="output"></div>
-        <div class="input-line">
-            <span class="prompt">>></span>
-            <input type="text" class="input" id="command-input" autofocus>
+██████  ██   ██  ██████ ██   ██ 
+                </pre>
+                <p>BUREAU OF ANOMALOUS CONTAINMENT AND RESEARCH</p>
+                <p>SECURITY LEVEL: ALPHA-3</p>
+                <p>TYPE 'help' FOR AVAILABLE COMMANDS</p>
+            </div>
+            <div class="terminal-input-line">
+                <span class="prompt">>></span>
+                <input type="text" id="terminal-input" class="terminal-input" autofocus spellcheck="false">
+            </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const terminal = document.getElementById('terminal');
-            const output = document.getElementById('output');
-            const input = document.getElementById('command-input');
-
-            // Initialize terminal
-            output.innerHTML = 'BACR SECURE TERMINAL v2.174 [CLASSIFIED]<br>';
-            output.innerHTML += 'Type "help" for available commands<br>';
-            output.innerHTML += '<br>';
-
-            // Handle command input
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    const command = input.value;
-                    
-                    // Add command to output
-                    output.innerHTML += '>> ' + command + '<br>';
-                    
-                    // Process command
-                    processCommand(command);
-                    
-                    // Clear input
-                    input.value = '';
-                }
-            });
-
-            function processCommand(command) {
-                switch(command.toLowerCase()) {
-                    case 'help':
-                        output.innerHTML += 'Available commands:<br>';
-                        output.innerHTML += '  ls - List files<br>';
-                        output.innerHTML += '  cd - Change directory<br>';
-                        output.innerHTML += '  cat - Display file contents<br>';
-                        output.innerHTML += '  clear - Clear terminal<br>';
-                        break;
-                    case 'ls':
-                        output.innerHTML += 'classified/<br>';
-                        output.innerHTML += 'documents/<br>';
-                        output.innerHTML += 'reports/<br>';
-                        break;
-                    case 'clear':
-                        output.innerHTML = '';
-                        break;
-                    default:
-                        output.innerHTML += 'Command not recognized or access denied<br>';
-                }
-                
-                // Scroll to bottom
-                terminal.scrollTop = terminal.scrollHeight;
-            }
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/terminal.js') }}"></script>
 </body>
 </html>
