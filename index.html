@@ -1,181 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BACR SECURE TERMINAL V2.174</title>
+    <title>BACR Terminal</title>
     <style>
         body {
             background-color: #000;
             color: #33ff33;
             font-family: monospace;
-            padding: 20px;
             margin: 0;
-            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        .logo {
-            font-family: monospace;
-            font-size: 24px;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
+        .terminal-container {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .ascii-art {
+            font-size: 14px;
             white-space: pre;
-        }
-
-        .header {
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .security-level {
-            margin-bottom: 10px;
-        }
-
-        input {
-            background-color: #000;
+            margin: 20px 0;
             color: #33ff33;
-            border: 1px solid #33ff33;
-            font-family: monospace;
-            width: 200px;
-            margin-bottom: 8px;
-            padding: 5px;
-            font-size: 14px;
         }
 
         .command-reference {
             border-top: 1px solid #33ff33;
             border-bottom: 1px solid #33ff33;
-            padding: 10px 0;
+            padding: 10px;
             margin: 20px 0;
             font-size: 14px;
+            text-align: center;
+            width: 100%;
         }
 
-        .input-prompt {
+        .terminal-input {
+            background: transparent;
+            border: 1px solid #33ff33;
             color: #33ff33;
-            margin-top: 10px;
-        }
-
-        .input-prompt::before {
-            content: ">> ";
-        }
-
-        @keyframes blink {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0; }
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 15px;
-            background-color: #33ff33;
-            animation: blink 1s infinite;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-
-        #loginForm {
+            padding: 5px;
+            width: 300px;
             margin-top: 20px;
         }
 
-        button {
-            background-color: #000;
-            color: #33ff33;
-            border: 1px solid #33ff33;
-            font-family: monospace;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 14px;
+        .terminal-text {
+            margin: 10px 0;
+            text-align: center;
         }
 
-        .warning {
-            color: #ff3333;
-            margin-top: 10px;
-        }
-
-        .access-denied {
-            color: #ff3333;
-            margin-top: 10px;
-            animation: glitch 0.3s linear infinite;
-        }
-
-        @keyframes glitch {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+        .prompt::before {
+            content: ">>";
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="logo">
-    ██████   █████   ██████  ██████  
-    ██   ██ ██   ██ ██      ██   ██ 
-    ██████  ███████ ██      ██████  
-    ██   ██ ██   ██ ██      ██   ██ 
-    ██████  ██   ██  ██████ ██   ██ </div>
+    <div class="terminal-container">
+        <div class="ascii-art">
+██████   █████   ██████ ██████  
+██   ██ ██   ██ ██      ██   ██ 
+██████  ███████ ██      ██████  
+██   ██ ██   ██ ██      ██   ██ 
+██████  ██   ██  ██████ ██   ██ </div>
 
-    <div class="header">
-        BUREAU OF ANOMALOUS CONTAINMENT AND RESEARCH
+        <div class="terminal-text">BUREAU OF ANOMALOUS CONTAINMENT AND RESEARCH</div>
+        <div class="terminal-text">SECURITY LEVEL: ALPHA-3</div>
+
+        <div class="command-reference">
+            BACR TERMINAL COMMAND REFERENCE ls List files in current directory | cd Change current directory | cat Display file contents [RESTRICTED] ALPHA-3 Standard file access | BETA-2 Classified documents | [RESTRICTED] OMEGA-1 Shadow Realm data WARNING: Some commands may trigger reality stabilization protocols [NOTE: Unauthorized access attempts will be logged and reported]
+        </div>
+
+        <div class="terminal-text">BACR SECURE DATABASE</div>
+        <div class="terminal-text">WARNING: AUTHORIZED ACCESS ONLY</div>
+        
+        <div class="prompt">
+            <input type="text" class="terminal-input" autofocus spellcheck="false" placeholder="TYPE 'help' FOR AVAILABLE COMMANDS">
+        </div>
     </div>
-
-    <div class="security-level">
-        SECURITY LEVEL: ALPHA-3
-    </div>
-
-    <div class="command-reference">
-        BACR TERMINAL COMMAND REFERENCE
-        ls List files in current directory | cd <directory> Change current directory | cat <filename> Display file contents
-        [RESTRICTED] ALPHA-3 Standard file access | BETA-2 Classified documents | [RESTRICTED] OMEGA-1 Shadow Realm data
-        WARNING: Some commands may trigger reality stabilization protocols
-        [NOTE: Unauthorized access attempts will be logged and reported]
-    </div>
-
-    <div id="output">
-        BACR SECURE DATABASE<br>
-        WARNING: AUTHORIZED ACCESS ONLY<span class="cursor"></span>
-    </div>
-
-    <form id="loginForm">
-        <input type="text" id="username" placeholder="Agency ID" autocomplete="off">
-        <br>
-        <input type="password" id="password" placeholder="Access Code" autocomplete="off">
-        <br>
-        <button type="submit">LOGIN</button>
-    </form>
-
-    <div class="input-prompt"></div>
 
     <script>
-        document.getElementById('loginForm').onsubmit = function(e) {
-            e.preventDefault();
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-            
-            const output = document.getElementById('output');
-            output.innerHTML = output.innerHTML.replace('<span class="cursor"></span>', '');
-            
-            if (username === 'agent-327' && password === 'parallax-413') {
-                output.innerHTML += '<br>ACCESS GRANTED<span class="cursor"></span>';
-                // Add delay before redirect
-                setTimeout(() => {
-                    window.location.href = 'templates/classified.html';
-                }, 1500);
-            } else {
-                output.innerHTML += '<br>ACCESS DENIED<span class="cursor"></span>';
-                // Add glitch effect for failed attempts
-                const deniedMessage = document.createElement('div');
-                deniedMessage.className = 'access-denied';
-                deniedMessage.textContent = 'ACCESS DENIED';
-                document.body.appendChild(deniedMessage);
-                
-                // Remove denial message after animation
-                setTimeout(() => {
-                    deniedMessage.remove();
-                }, 2000);
-                
-                // Clear password field
-                document.getElementById('password').value = '';
+        document.querySelector('.terminal-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                // Handle command input here
+                console.log(this.value);
+                this.value = '';
             }
-            return false;
-        };
+        });
     </script>
 </body>
 </html>
