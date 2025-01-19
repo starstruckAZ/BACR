@@ -1,34 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>BACR Terminal</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/terminal.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/terminal.css">
+    <title>BACR TERMINAL - CLASSIFIED ACCESS</title>
 </head>
 <body>
     <div class="terminal-container">
-        <div id="terminal">
-            <div class="terminal-header">
-                <span class="header-text">BACR SECURE TERMINAL v2.174 {{current_time}}</span>
-            </div>
-            <div id="output" class="terminal-output">
-                <pre class="ascii-art">
+        <div class="terminal-header">
+            <pre id="bacr-logo" class="terminal-logo">
 ██████   █████   ██████ ██████  
 ██   ██ ██   ██ ██      ██   ██ 
 ██████  ███████ ██      ██████  
 ██   ██ ██   ██ ██      ██   ██ 
 ██████  ██   ██  ██████ ██   ██ 
-                </pre>
-                <p>BUREAU OF ANOMALOUS CONTAINMENT AND RESEARCH</p>
-                <p>SECURITY LEVEL: ALPHA-3</p>
-                <p>TYPE 'help' FOR AVAILABLE COMMANDS</p>
+            </pre>
+            <div class="terminal-title">BUREAU OF ANOMALOUS CONTAINMENT AND RESEARCH</div>
+            <div class="terminal-security">SECURITY LEVEL: ALPHA-3</div>
+            <div class="terminal-warning">
+                BACR TERMINAL COMMAND REFERENCE ls List files in current directory | cd Change current directory | cat Display file contents [RESTRICTED] ALPHA-3 Standard
             </div>
-            <div class="terminal-input-line">
-                <span class="prompt">>></span>
-                <input type="text" id="terminal-input" class="terminal-input" autofocus spellcheck="false">
+            <div class="terminal-warning">
+                file access | BETA-2 Classified documents | [RESTRICTED] OMEGA-1 Shadow Realm data WARNING: Some commands may trigger reality stabilization protocols
+            </div>
+            <div class="terminal-alert">
+                [NOTE: Unauthorized access attempts will be logged and reported]
             </div>
         </div>
+
+        <div class="terminal-status">
+            <div class="status-title">BACR SECURE DATABASE</div>
+            <div class="status-warning">WARNING: AUTHORIZED ACCESS ONLY</div>
+        </div>
+
+        <div id="output" class="terminal-output">
+            <p>TYPE 'help' FOR AVAILABLE COMMANDS</p>
+        </div>
+
+        <div class="terminal-input-line">
+            <span class="prompt">&gt;&gt;</span>
+            <input type="text" id="terminal-input" class="terminal-input" autofocus>
+        </div>
+
+        <!-- Hidden elements for easter eggs and effects -->
+        <div id="glitch-overlay" class="glitch-overlay"></div>
+        <div id="reality-stabilization" class="reality-stabilization"></div>
+        <div id="shadow-effects" class="shadow-effects"></div>
     </div>
-    <script src="{{ url_for('static', filename='js/terminal.js') }}"></script>
+
+    <!-- Scripts -->
+    <script src="static/js/terminal.js"></script>
 </body>
 </html>
